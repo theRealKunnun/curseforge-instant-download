@@ -1,64 +1,50 @@
-function randomNumber() {
+function generateRandomId() {
     return new Promise(function (resolve) {
         const number = Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
         resolve(number);
     })
 }
 
-function createString(){
-    return new Promise(function (resolve) {
-        chrome.storage.session.get(["modId"]).then((result) => {
-            let string = `https://www.curseforge.com/api/v1/mods/${result.modId}/files/\\4/download`
-            resolve(string);
-        });
-    })
-}
-
-function createRedirect() {
-    return new Promise(async function (resolve, reject) {
-        const newRules = [
-            {
-                "id": await randomNumber(),
-                "priority": 1,
-                "action": {"type": "redirect", "redirect": { "regexSubstitution": await createString()}},
-                "condition": {
-                    "regexFilter" : "^https:\\/\\/www\\.curseforge\\.com\\/([^\\/]+)\\/([^\\/]+)\\/([^\\/]+)\\/download\\/([^\\/]+)$",
-                    "resourceTypes": ["main_frame"]
-                }
-            }
-        ]
-        resolve(newRules);
-    })
-}
+// function generateRegexSubstitutionString(modId) {
+//     return new Promise(function (resolve) {
+//         const regexSubstitutionString = `https://www.curseforge.com/api/v1/mods/${modId}/files/\\4/download`
+//         resolve(regexSubstitutionString);
+//         // chrome.storage.session.get(["modId"]).then((result) => {
+//         //     let string = `https://www.curseforge.com/api/v1/mods/${result.modId}/files/\\4/download`
+//         //     resolve(string);
+//         // });
+//     })
+// }
 
 //https://www.curseforge.com/minecraft/mc-mods/yungs-better-ocean-monuments/download/5124323
 //https://www.curseforge.com/api/v1/mods/689238/files/5124323/download
 
-chrome.tabs.onActivated.addListener(async function (activeInfo){
+chrome.tabs.onActivated.addListener(async function (activeInfo) {
     //send "active tab changed"-message to content script
-    const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+    const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
     const response = await chrome.tabs.sendMessage(tab.id, "active tab changed");
     console.debug(response)
 
-    await chrome.storage.session.set({modId: response})
+    //await chrome.storage.session.set({modId: response})
 
-    console.debug(await createString())
-
-    const newRules = await createRedirect();
     await chrome.declarativeNetRequest.updateSessionRules({
-        addRules: newRules
+        addRules: [{
+            "id": await generateRandomId(),
+            "priority": 1,
+            "action": {"type": "redirect", "redirect": {"regexSubstitution": `https://www.curseforge.com/api/v1/mods/${response}/files/\\4/download`}},
+            "condition": {
+                "regexFilter": "^https:\\/\\/www\\.curseforge\\.com\\/([^\\/]+)\\/([^\\/]+)\\/([^\\/]+)\\/download\\/([^\\/]+)$",
+                "resourceTypes": ["main_frame"]
+            }
+        }]
     });
 })
 
 
-
-
-
-function tabIsDownloadPage(url){
-    const regex = /^https:\/\/www\.curseforge\.com\/[^\/]+\/[^\/]+\/[^\/]+\/download\/[^\/]+$/;
-    return regex.test(url);
-}
-
+// function tabIsDownloadPage(url) {
+//     const regex = /^https:\/\/www\.curseforge\.com\/[^\/]+\/[^\/]+\/[^\/]+\/download\/[^\/]+$/;
+//     return regex.test(url);
+// }
 
 
 // chrome.runtime.onMessage.addListener(function (request, sender) {
@@ -82,15 +68,6 @@ function tabIsDownloadPage(url){
 //
 
 
-
-
-
-
-
-
-
-
-
 // // Get arrays containing new and old rules
 // const newRules = await getNewRules();
 // const oldRules = await chrome.declarativeNetRequest.getDynamicRules();
@@ -101,8 +78,6 @@ function tabIsDownloadPage(url){
 //     removeRuleIds: oldRuleIds,
 //     addRules: newRules
 // });
-
-
 
 
 // chrome.tabs.onUpdated.addListener(

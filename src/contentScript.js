@@ -1,9 +1,6 @@
 function getModId() {
     let modIdContainer = document.querySelector('div.aside-box.project-details-box > section:nth-child(2) > dl:nth-child(2) > dd:nth-child(6)');
-
-    //TODO: make undefined instead of null
     let modId;
-
     if (modIdContainer) {
         modId = modIdContainer.textContent.trim();
         // chrome.storage.session.get(["modId"]).then((result) => {
