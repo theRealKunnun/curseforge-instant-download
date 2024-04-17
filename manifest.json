@@ -1,0 +1,51 @@
+{
+  "manifest_version": 3,
+  "name": "curseforge instant download",
+  "version": "1.0",
+  "description": "Instantly downloads files from curseforge, no more waiting.",
+  "action": {
+    "default_icon": "src/icon.png"
+  },
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*",
+    "*://*.curseforge.com/*"
+  ],
+  "permissions": [
+    "nativeMessaging",
+    "activeTab",
+    "tabs",
+    "storage",
+    "webRequest",
+    "webNavigation",
+    "declarativeNetRequest",
+    "declarativeNetRequestWithHostAccess"
+  ],
+  "background": {
+    "service_worker": "src/serviceWorker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.curseforge.com/*"
+      ],
+      "js": [
+        "src/contentScript.js"
+      ]
+    }
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": false,
+        "path": "src/rules_1.json"
+      },
+      {
+        "id": "ruleset_2",
+        "enabled": false,
+        "path": "src/rules_2.json"
+      }
+    ]
+  }
+}
