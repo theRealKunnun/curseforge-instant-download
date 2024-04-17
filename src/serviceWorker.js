@@ -5,17 +5,6 @@ function generateRandomId() {
     })
 }
 
-// function generateRegexSubstitutionString(modId) {
-//     return new Promise(function (resolve) {
-//         const regexSubstitutionString = `https://www.curseforge.com/api/v1/mods/${modId}/files/\\4/download`
-//         resolve(regexSubstitutionString);
-//         // chrome.storage.session.get(["modId"]).then((result) => {
-//         //     let string = `https://www.curseforge.com/api/v1/mods/${result.modId}/files/\\4/download`
-//         //     resolve(string);
-//         // });
-//     })
-// }
-
 //https://www.curseforge.com/minecraft/mc-mods/yungs-better-ocean-monuments/download/5124323
 //https://www.curseforge.com/api/v1/mods/689238/files/5124323/download
 
@@ -25,8 +14,7 @@ chrome.tabs.onActivated.addListener(async function (activeInfo) {
     const response = await chrome.tabs.sendMessage(tab.id, "active tab changed");
     console.debug(response)
 
-    //await chrome.storage.session.set({modId: response})
-
+    //create new custom redirect rule
     await chrome.declarativeNetRequest.updateSessionRules({
         addRules: [{
             "id": await generateRandomId(),
