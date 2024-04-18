@@ -22,6 +22,36 @@ chrome.webRequest.onBeforeRequest.addListener(function (details) {
     console.debug(details);
 }, {urls: ['https://*.curseforge.com/*']})
 
+// await chrome.declarativeNetRequest.updateSessionRules({
+//     addRules: [{
+//         "id": await generateRandomId(), "priority": 1, "action": {
+//             "type": "redirect",
+//             "redirect": {"regexSubstitution": `https://www.curseforge.com/api/v1/mods/${modId}/files/\\4/download`}
+//         }, "condition": {
+//             "regexFilter": "^https:\\/\\/www\\.curseforge\\.com\\/([^\\/]+)\\/([^\\/]+)\\/([^\\/]+)\\/download\\/([^\\/]+)$",
+//             "resourceTypes": ["main_frame"]
+//         }
+//     }]
+// });
+
+//, {
+//             "id": await generateRandomId(), "priority": 1, "action": {
+//                 "type": "redirect",
+//                 "redirect": {"regexSubstitution": `https://www.curseforge.com/api/v1/mods/${response}/files/\\1/download`}
+//             }, "condition": {
+//                 "regexFilter": "^https:\\/\\/www\\.curseforge\\.com\\/\\_next\\/data\\/.+\\=([\\d]+)$",
+//                 "resourceTypes": ["main_frame"]
+//             }
+//         }, {
+//             "id": await generateRandomId(), "priority": 1, "action": {
+//                 "type": "redirect",
+//                 "redirect": {"regexSubstitution": `https://www.curseforge.com/api/v1/mods/${response}/files/888/download`}
+//             }, "condition": {
+//                 "regexFilter": "^https:\\/\\/static-beta\\.curseforge\\.com\\/_next\\/static\\/chunks\\/pages\\/[\\D|\\d]+$",
+//                 "resourceTypes": ["main_frame"]
+//             }
+//         }
+
 // chrome.webRequest.onBeforeRedirect.addListener(function (details) {
 //     console.debug('onBeforeRedirect');
 //     console.debug(details);
