@@ -17,11 +17,14 @@ function getModId() {
     return modId;
 }
 
-chrome.runtime.onMessage.addListener(function (message,sender,sendResponse) {
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    if (message === "active tab changed") {
         console.debug(message)
         sendResponse(getModId())
+    } else if (message === "go back") {
+        this.window.history.back();
     }
-)
+})
 
 
 //1.1 check if page has mod id in it, if so; send message to service worker with mod id itself [X]

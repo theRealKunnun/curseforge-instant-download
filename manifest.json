@@ -19,7 +19,9 @@
     "webRequest",
     "webNavigation",
     "declarativeNetRequest",
-    "declarativeNetRequestWithHostAccess"
+    "declarativeNetRequestWithHostAccess",
+    "history",
+    "downloads"
   ],
   "background": {
     "service_worker": "src/serviceWorker.js"
