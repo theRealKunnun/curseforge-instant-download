@@ -17,8 +17,7 @@ let handleWidgetAppearance = () => {
                 console.debug(`mod id retrieved from storage: ${result.idfc_modId}`);
                 (async () => {
                     const response = await chrome.runtime.sendMessage({reason: "download", data: { url: `https://www.curseforge.com/api/v1/mods/${result.idfc_modId}/files/${fileId}/download`}});
-                    console.debug(response);
-                    window.location.href = modpageUrl;
+                    (response === "download started") ? window.location.href = modpageUrl : undefined;
                 })();
             });
         });
@@ -37,9 +36,7 @@ const widgetDownloadButtonParentElement = document.querySelector("#__next > main
 if (widgetDownloadButtonParentElement) {
     console.debug("widgetDownloadButtonParentElement found");
 }
-
 let mutationObserverConfig = {childList: true, subtree: true}
-
 let callback = function (mutationsList, observer) {
     for (let mutation of mutationsList) {
         if (mutation.type === 'childList') {
@@ -49,6 +46,11 @@ let callback = function (mutationsList, observer) {
 };
 let mutationObserver = new MutationObserver(callback);
 mutationObserver.observe(widgetDownloadButtonParentElement, mutationObserverConfig);
+
+
+
+
+
 //mutationObserver.disconnect();
 
 
