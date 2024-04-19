@@ -14,37 +14,9 @@
     "https://*.curseforge.com/*"
   ],
   "permissions": [
-    "nativeMessaging",
-    "activeTab",
     "tabs",
     "storage",
-    "webRequest",
-    "webNavigation",
     "declarativeNetRequestWithHostAccess",
-    "history",
     "downloads"
-  ],
-  "declarative_net_request": {
-    "rule_resources": [
-      {
-        "id": "ruleset_1",
-        "enabled": false,
-        "path": "src/rules_1.json"},
-      {
-        "id": "ruleset_2",
-        "enabled": false,
-        "path": "src/rules_2.json"},
-      {
-        "id": "ruleset_3",
-        "enabled": false,
-        "path": "src/rules_3.json"},
-      {
-        "id": "ruleset_4",
-        "enabled": false,
-        "path": "src/rules_4.json"},
-      {
-        "id": "ruleset_5",
-        "enabled": false,
-        "path": "src/rules_5.json"}]
-  }
+  ]
 }
