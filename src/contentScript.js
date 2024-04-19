@@ -8,7 +8,11 @@ const handleModalAdded = () => {
     if (modalButton) {
         // Do something with the modal, e.g., access its contents or manipulate it
         console.debug('Modal found');
-        console.debug(modalButton.innerText)
+        console.debug(modalButton.textContent.trim())
+        modalButton.addEventListener('click', function() {
+            console.debug('HEYYYYYYYYYY');
+            window.location.href = 'https://example.com';
+        });
 
         // Disconnect the observer since we found the modal
         observer.disconnect();
