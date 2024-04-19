@@ -9,8 +9,8 @@
       }
     },
     "condition": {
-      "regexFilter": "^https:\\/\\/www\\.curseforge\\.com\\/([^\\/]+)\\/([^\\/]+)\\/([^\\/]+)\\/download\\/([^\\/]+)$",
-      "resourceTypes": ["main_frame"]
+      "regexFilter": "^https:\\/\\/static-beta\\.curseforge\\.com\\/_next\\/static\\/chunks\\/pages\\/[\\D|\\d]+$",
+      "resourceTypes": ["xmlhttprequest"]
     }
   }
 ]

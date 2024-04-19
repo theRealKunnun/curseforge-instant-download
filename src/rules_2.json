@@ -1,11 +1,16 @@
 [
   {
-    "id": 2,
+    "id": 1,
     "priority": 1,
-    "action": {"type": "redirect", "redirect": { "url": "https://www.curseforge.com" }},
+    "action": {
+      "type": "redirect",
+      "redirect": {
+        "url": "https://www.curseforge.com"
+      }
+    },
     "condition": {
-      "urlFilter" : "|https://www.curseforge.com/*/*/*/download/*|",
-      "resourceTypes": ["main_frame"]
+      "regexFilter": "^https:\\/\\/www\\.curseforge\\.com\\/\\_next\\/data\\/.+\\=([\\d]+)$",
+      "resourceTypes": ["xmlhttprequest"]
     }
   }
 ]
