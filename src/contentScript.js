@@ -4,17 +4,12 @@ let handleWidgetAppearance = () => {
     if (card) {
         const link = card.getAttribute("href").split("/");
         fileId = link[link.length - 1];
-        console.debug(`file id found: ${fileId}`);
     }
-
     const widgetDownloadButton = document.querySelector("#__next > main > div.container.project-page > div.modal-container > section > div.actions > button");
     if (widgetDownloadButton + fileId) {
-        console.debug(`widget download button found: ${widgetDownloadButton.textContent.trim()}`);
         widgetDownloadButton.addEventListener('click', function () {
             const modpageUrl = window.location.href;
-            console.debug(`widget download button clicked`);
             chrome.storage.session.get(["idfc_modId"]).then((result) => {
-                console.debug(`mod id retrieved from storage: ${result.idfc_modId}`);
                 (async () => {
                     const response = await chrome.runtime.sendMessage({reason: "download", data: { url: `https://www.curseforge.com/api/v1/mods/${result.idfc_modId}/files/${fileId}/download`}});
                     (response === "download started") ? window.location.href = modpageUrl : undefined;
@@ -24,18 +19,9 @@ let handleWidgetAppearance = () => {
         mutationObserver.disconnect();
     }
 };
-
-const modId = document.querySelector("#__next > main > div.container.project-page > aside > div.aside-box.project-details-box > section:nth-child(2) > dl > dd:nth-child(6)").textContent.trim()
-if (modId) {
-    chrome.storage.session.set({idfc_modId: modId}).then(() => {
-        console.debug(`mod id was stored: ${modId}`);
-    });
-}
-
+const modId = document.querySelector("#__next > main > div.container.project-page > aside > div.aside-box.project-details-box > section:nth-child(2) > dl > dd:nth-child(6)").textContent.trim();
+(modId) ? chrome.storage.session.set({idfc_modId: modId}) : undefined;
 const widgetDownloadButtonParentElement = document.querySelector("#__next > main > div.container.project-page");
-if (widgetDownloadButtonParentElement) {
-    console.debug("widgetDownloadButtonParentElement found");
-}
 let mutationObserverConfig = {childList: true, subtree: true}
 let callback = function (mutationsList, observer) {
     for (let mutation of mutationsList) {
@@ -46,12 +32,10 @@ let callback = function (mutationsList, observer) {
 };
 let mutationObserver = new MutationObserver(callback);
 mutationObserver.observe(widgetDownloadButtonParentElement, mutationObserverConfig);
-
-
-
-
-
 //mutationObserver.disconnect();
+
+
+
 
 
 // chrome.storage.session.set({ key: value }).then(() => {
