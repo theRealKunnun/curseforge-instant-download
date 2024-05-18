@@ -40,6 +40,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             sendResponse(null);
         }
     } catch (error) {
-        console.error(`IDFC Extension ERROR: ${error}`);
+        console.debug(`IDFC Extension ERROR: ${error}`);
     }
 });

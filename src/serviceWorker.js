@@ -2,8 +2,7 @@ async function generateRandomId() {
     return Math.floor(Math.random() * (10000000 - 1 + 1)) + 1;
 }
 
-// Each time a tab activates:
-chrome.tabs.onActivated.addListener(async () => {
+async function main() {
     try {
         // Get the active tab.
         const [activeTab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
@@ -32,11 +31,14 @@ chrome.tabs.onActivated.addListener(async () => {
             }
         }
     } catch (error) {
-        console.error(`IDFC Extension ERROR: ${error}`);
+        console.debug(`IDFC Extension ERROR: ${error}`);
     }
+}
+
+chrome.tabs.onActivated.addListener(async () => {
+    await main();
 });
 
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    chrome.downloads.download({url: message});
-    sendResponse("OK");
-});
+chrome.tabs.onUpdated.addListener(async () => {
+    await main();
+})
