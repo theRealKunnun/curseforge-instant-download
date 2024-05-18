@@ -1,0 +1,4 @@
+ideas:
+- when the extension successfully grabbed everything to create the redirect and widget download -> make a badge go green.
+    when not -> make a badge go red
+    when not even on curseforge.com -> no badge
