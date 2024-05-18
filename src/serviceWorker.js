@@ -5,17 +5,6 @@ function generateRandomId() {
     })
 }
 
-chrome.storage.session.setAccessLevel({accessLevel: "TRUSTED_AND_UNTRUSTED_CONTEXTS"});
-
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    if (message.reason === "download") {
-        chrome.downloads.download(
-            {url: message.data.url}
-        );
-        sendResponse("download started");
-    }
-});
-
 chrome.tabs.onActivated.addListener(async function () {
     //get the current tab
     const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});

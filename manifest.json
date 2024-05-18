@@ -1,11 +1,17 @@
 {
   "manifest_version": 3,
-  "name": "curseforge instant download",
+  "name": "Instant Download for CurseForge",
   "version": "1.0",
-  "description": "Instantly downloads files from curseforge, no more waiting.",
-  "content_scripts": [{
-      "matches": ["https://*.curseforge.com/*"],
-      "js": ["src/contentScript.js"]}
+  "description": "Instantly downloads files from CurseForge. No more waiting for five seconds!",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.curseforge.com/*"
+      ],
+      "js": [
+        "src/contentScript.js"
+      ]
+    }
   ],
   "background": {
     "service_worker": "src/serviceWorker.js"
@@ -14,8 +20,6 @@
     "https://*.curseforge.com/*"
   ],
   "permissions": [
-    "storage",
-    "declarativeNetRequestWithHostAccess",
-    "downloads"
+    "declarativeNetRequestWithHostAccess"
   ]
 }
