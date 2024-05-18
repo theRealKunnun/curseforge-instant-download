@@ -35,3 +35,8 @@ chrome.tabs.onActivated.addListener(async () => {
         console.error(`IDFC Extension ERROR: ${error}`);
     }
 });
+
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    chrome.downloads.download({url: message});
+    sendResponse("OK");
+});
