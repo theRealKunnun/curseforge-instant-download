@@ -1,1 +1,1 @@
-- Maybe instead of "declarativeNetRequestWithHostAccess" use "declarativeNetRequest"
+- the widget method works but not the list method, so move the declarativeNetRequest bit to the service worker (maybe content scripts don't have access to that api).

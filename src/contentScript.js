@@ -6,40 +6,64 @@ function getModIdFromPageContent() {
     return null;
 }
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    try {
-        // Get the mod id from current tab's page content.
-        const modId = getModIdFromPageContent();
+async function generateRandomId() {
+    return Math.floor(Math.random() * (10000000 - 1 + 1)) + 1;
+}
 
-        if (modId){
-            // Handle list download.
-            sendResponse(modId);
+function handleWidgetDownload() {
+    const widgetButton = document.querySelector("#__next > div > main > div.container.project-page > div > div.actions > div > button");
+    if (widgetButton) {
+        widgetButton.addEventListener('click', () => {
+            const modId = getModIdFromPageContent();
+            if (modId){
+                setTimeout(() => {
+                    const widgetDownloadButton = document.querySelector("#__next > div > main > div.container.project-page > div.modal-container > section > div.actions > button");
+                    if (widgetDownloadButton) {
+                        widgetDownloadButton.addEventListener('click', () => {
+                            const widgetCard = document.querySelector("#__next > div > main > div.container.project-page > div.modal-container > section > div.modal-content > div.download-details > a");
+                            if (widgetCard) {
+                                const currentTabUrl = window.location.href;
+                                window.location.href = `https://www.curseforge.com/api/v1/mods/${modId}/files/${widgetCard.getAttribute('href').split('/').pop()}/download`;
+                                setTimeout(() => {
+                                    window.location.href = currentTabUrl;
+                                }, 700);
+                            }
+                        });
+                    }
+                }, 700);
+            }
+        });
+    }
+}
 
-            // Handle widget download.
-            const widgetButton = document.querySelector("#__next > div > main > div.container.project-page > div > div.actions > div > button");
-            if (widgetButton) {
-                widgetButton.addEventListener('click', () => {
-                    setTimeout(() => {
-                        const widgetDownloadButton = document.querySelector("#__next > div > main > div.container.project-page > div.modal-container > section > div.actions > button");
-                        if (widgetDownloadButton) {
-                            widgetDownloadButton.addEventListener('click', () => {
-                                const widgetCard = document.querySelector("#__next > div > main > div.container.project-page > div.modal-container > section > div.modal-content > div.download-details > a");
-                                if (widgetCard) {
-                                    const currentTabUrl = window.location.href;
-                                    window.location.href = `https://www.curseforge.com/api/v1/mods/${modId}/files/${widgetCard.getAttribute('href').split('/').pop()}/download`;
-                                    setTimeout(() => {
-                                        window.location.href = currentTabUrl
-                                    }, 700);
-                                }
-                            });
+function handleDetailedDownload(){
+    const detailedDownloadButton = document.querySelector("#__next > div > main > div.container.project-page > section > section > h2 > div > div > a.btn-cta.download-cta");
+    if (detailedDownloadButton) {
+        detailedDownloadButton.addEventListener('click', async () => {
+            const modId = getModIdFromPageContent();
+            if (modId){
+                await chrome.declarativeNetRequest.updateSessionRules({
+                    addRules: [{
+                        "id": await generateRandomId(),
+                        "priority": 1,
+                        "action": {
+                            "type": "redirect",
+                            "redirect": { "regexSubstitution": `https://www.curseforge.com/api/v1/mods/${modId}/files/\\4/download` }
+                        },
+                        "condition": {
+                            "regexFilter": "^https:\\/\\/www\\.curseforge\\.com\\/([^\\/]+)\\/([^\\/]+)\\/([^\\/]+)\\/download\\/([^\\/]+)$",
+                            "resourceTypes": ["main_frame"]
                         }
-                    }, 700);
+                    }]
                 });
             }
-        } else {
-            sendResponse(null);
-        }
-    } catch (error) {
-        console.error(`IDFC Extension ERROR: ${error}`);
+        });
     }
-});
+}
+
+try {
+    handleDetailedDownload();
+    handleWidgetDownload();
+} catch (error) {
+    console.error(`IDFC Extension ERROR: ${error}`);
+}
