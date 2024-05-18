@@ -21,5 +21,16 @@
   ],
   "background": {
     "service_worker": "src/serviceWorker.js"
+  },
+  "action": {
+    "default_icon": {
+      "16": "media/Icon.png",
+      "24": "media/Icon.png",
+      "32": "media/Icon.png",
+      "48": "media/Icon.png",
+      "128": "media/Icon.png"
+    },
+    "default_title": "IDFC",
+    "default_popup": "src/ui.html"
   }
 }
