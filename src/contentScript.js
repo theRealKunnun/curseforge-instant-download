@@ -29,11 +29,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                                     window.location.href = `https://www.curseforge.com/api/v1/mods/${modId}/files/${widgetCard.getAttribute('href').split('/').pop()}/download`;
                                     setTimeout(() => {
                                         window.location.href = currentTabUrl
-                                    }, 700);
+                                    }, 1000);
                                 }
                             });
                         }
-                    }, 700);
+                    }, 1000);
                 });
             }
         } else {
