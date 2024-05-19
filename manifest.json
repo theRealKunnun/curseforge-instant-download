@@ -30,7 +30,6 @@
       "48": "media/Icon.png",
       "128": "media/Icon.png"
     },
-    "default_title": "IDFC",
-    "default_popup": "src/ui.html"
+    "default_title": "IDFC"
   }
 }
