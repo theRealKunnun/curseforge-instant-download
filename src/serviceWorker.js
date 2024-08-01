@@ -13,6 +13,7 @@ async function main() {
             if (activeTabUrl.origin === 'https://curseforge.com' || activeTabUrl.origin.endsWith('.curseforge.com')) {
                 const response = await chrome.tabs.sendMessage(activeTab.id, "getModIdFromPageContent()");
                 if (response) {
+                    // DEBUG console.debug(`Mod Id: ${response}`);
                     await chrome.declarativeNetRequest.updateSessionRules({
                         addRules: [{
                             "id": await generateRandomId(),
@@ -27,6 +28,7 @@ async function main() {
                             }
                         }]
                     });
+                    // DEBUG console.debug(`Redirect organized`);
                 }
             }
         }
